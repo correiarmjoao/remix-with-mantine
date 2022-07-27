@@ -11,9 +11,11 @@ import { MantineProvider, ColorSchemeProvider } from '@mantine/core';
 import { useState } from "react";
 import { AppShell } from "./AppShell";
 
-import { getCache } from '@mantine/core';
+import { useEmotionCache } from '@mantine/core';
+// import { getCache } from '@mantine/core';
 import { useContext, useEffect } from "react";
 import { ClientStyleContext } from "~/context";
+import { StylesPlaceholder } from "@mantine/remix";
 
 interface DocumentProps {
   children: React.ReactNode;
@@ -26,9 +28,10 @@ export function Document({ children }: DocumentProps) {
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
   const clientStyleData = useContext(ClientStyleContext);
+  const mantineCache = useEmotionCache()
 
   useEffect(() => {
-    const cache = getCache({ key: 'mantine' })
+    const cache = mantineCache
     cache.sheet.container = document.head;
     const tags = cache.sheet.tags;
     cache.sheet.flush();
@@ -43,6 +46,7 @@ export function Document({ children }: DocumentProps) {
       <head>
         <Meta />
         <Links />
+        <StylesPlaceholder />
       </head>
       <body>
         <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>

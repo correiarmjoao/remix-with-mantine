@@ -2,7 +2,7 @@ import { RemixBrowser } from "@remix-run/react";
 import { useState } from "react";
 import { hydrate } from "react-dom";
 
-import { getCache } from '@mantine/core';
+import { createEmotionCache } from '@mantine/core';
 import { CacheProvider } from '@emotion/react'
 import { ClientStyleContext } from './context'
 
@@ -11,8 +11,8 @@ interface ClientCacheProviderProps {
 }
 
 function ClientCacheProvider({ children }: ClientCacheProviderProps) {
-  const [cache, setCache] = useState(getCache({ key: 'css' }))
-  function reset() { setCache(getCache({ key: 'css' })) }
+  const [cache, setCache] = useState(createEmotionCache({ key: 'css' }))
+  function reset() { setCache(createEmotionCache({ key: 'css' })) }
   return (
     <ClientStyleContext.Provider value={{ reset }}>
       <CacheProvider value={cache}>{children}</CacheProvider>
